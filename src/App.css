@@ -1,0 +1,43 @@
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.inner-main{
+  background-color: rgb(190, 166, 166);
+  height: 100%;
+}
+
+.outer-main {
+  position: relative;
+  /* background: white; */
+  padding-bottom: 0; 
+}
+
+.outer-main::after, .outer-main::before{
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  /*cone like gradient*/
+  background-image: conic-gradient(#ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000); 
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+  padding-top: 10px;
+}
+
+.outer-main::before {
+  filter: blur(1.5rem);
+  opacity: 0.5; 
+}
+
+.heading-text{
+  color: rgb(83, 61, 206);
+  font-size: 4rem;
+  padding: 0;
+  margin: 0;
+}
