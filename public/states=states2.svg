@@ -1,0 +1,39 @@
+<svg width="1046" height="402" viewBox="0 0 1046 402" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="states=states2" clip-path="url(#clip0_1_12)">
+        <rect width="1046" height="402" fill="white" />
+        <g id="Group 2">
+            <g id="Ellipse 3" filter="url(#filter0_f_1_12)">
+                <ellipse cx="233" cy="-109" rx="198" ry="164" fill="#095D9D" />
+            </g>
+            <g id="Ellipse 4" filter="url(#filter1_f_1_12)">
+                <ellipse cx="541" cy="-60" rx="198" ry="164" fill="#E91EBD" />
+            </g>
+            <g id="Ellipse 5" filter="url(#filter2_f_1_12)">
+                <ellipse cx="848" cy="-109" rx="198" ry="164" fill="#D8230F" />
+            </g>
+        </g>
+    </g>
+    <defs>
+        <filter id="filter0_f_1_12" x="-35" y="-343" width="536" height="468" filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+            <feGaussianBlur stdDeviation="35" result="effect1_foregroundBlur_1_12" />
+        </filter>
+        <filter id="filter1_f_1_12" x="273" y="-294" width="536" height="468" filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+            <feGaussianBlur stdDeviation="35" result="effect1_foregroundBlur_1_12" />
+        </filter>
+        <filter id="filter2_f_1_12" x="580" y="-343" width="536" height="468" filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+            <feGaussianBlur stdDeviation="35" result="effect1_foregroundBlur_1_12" />
+        </filter>
+        <clipPath id="clip0_1_12">
+            <rect width="1046" height="402" fill="white" />
+        </clipPath>
+    </defs>
+</svg>
