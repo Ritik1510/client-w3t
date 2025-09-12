@@ -1,16 +1,11 @@
-import './App.css'
+import ReqAnimation from "./components/reqAnimation";
+import StreamAnimation from "./components/StreamAnimation";
 
-function App() {
-
+export default function App() {
   return (
     <>
-      <div className="outer-main">
-        <div className='inner-main'>
-          <h1 className='heading-text'>Apple Intelligence</h1>
-        </div>
-      </div>
+    <ReqAnimation /> 
+    {/* <StreamAnimation /> */}
     </>
   )
 }
-
-export default App
