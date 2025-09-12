@@ -5,44 +5,59 @@ export default function ReqAnimation() {
   const boxRef = useRef(null);
   const socketRef = useRef(null);
   const [connected, setConnected] = useState(false);
-  const [animationStep, setAnimationStep] = useState("scale"); // "scale" | "moveUp"
+  const [animationStep, setAnimationStep] = useState([null]); // "scale" | "moveUp"
 
   const connectToServer = () => {
     /**
-     * 
+     *
      * **/
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       console.log("Already connected");
       return;
     }
-    
+
     const socket = new WebSocket("ws://localhost:8000");
     socketRef.current = socket;
 
+    let connectionStartTime;
     socket.onopen = () => {
       console.log("✅ Connection established");
       setConnected(true);
+      connectionStartTime = new Date();
     };
 
     socket.onmessage = (event) => {
       try {
         const msg = JSON.parse(event.data);
         console.log("📩 Message from server:", msg);
-        if (msg.type === "start-animation") {
-          boxRef.current.classList.add(".box")
-          // Example: handle server acknowledgments
-          console.log(`Server ACK: ${msg.payload}`);
-        } else if (msg.type === "stop-animation") {
-          boxRef.current.classList.add(".box")
-          console.log(`Server status: ${msg.payload}`);
+        console.log("Response Type:", msg.type);
+        if (msg.type === "response") {
+          if (msg.message === "start-animation") {
+            setAnimationStep([scale, moveUp]);
+            console.log("Response Message:", msg.message);
+            console.log(`Server ACK: ${msg.payload}`);
+          } else if (msg.message === "stop-animation") {
+            console.log(`Server status: ${msg.payload}`);
+            // remove the both  classes
+          }
         }
       } catch (err) {
-        console.error("Failed to parse server message:", event.data);
+        console.error("_Failed to parse server message:_", event.data);
       }
     };
 
     socket.onclose = () => {
       console.log("⚠️ WebSocket disconnected");
+      if (connectionStartTime) {
+        const connectionEndTime = new Date();
+        const durationInMilliseconds = connectionEndTime - connectionStartTime;
+        const durationInSeconds = durationInMilliseconds / 1000;
+        console.log(
+          `WebSocket connection duration: ${durationInSeconds} seconds.`
+        );
+      } else {
+        console.log("Connection closed, but start time was not recorded.");
+      }
       setConnected(false);
     };
 
