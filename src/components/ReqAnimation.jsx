@@ -1,48 +1,80 @@
-import { useState, useEffect, useRef } from "react";
-import '../App.css'
+import { useState, useRef } from "react";
+import "../index.css";
 
 export default function ReqAnimation() {
   const boxRef = useRef(null);
   const socketRef = useRef(null);
-  const [connected, setConnected] = useState(false);
-  const [animationStep, setAnimationStep] = useState("scale"); // "scale" | "moveUp"
+  const [ connected, setConnected ] = useState(false);
+  const [ animationStep, setAnimationStep ] = useState("scale"); // "scale" | "moveUp"
 
-  // WebSocket setup
-  useEffect(() => {
-    const socket = new WebSocket("ws://localhost:8080");
+  // --------------------------
+  // WebSocket helpers
+  // --------------------------
+
+  const connectToServer = () => {
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      console.log("Already connected");
+      return;
+    }
+
+    const socket = new WebSocket(
+      "ws://localhost:8000"
+    );
+
     socketRef.current = socket;
 
     socket.onopen = () => {
-      console.log("connection established ;>")
-      setConnected(true); 
+      console.log("✅ Connection established");
+      setConnected(true);
     };
 
-    socket.onclose = () => setConnected(false);
-    socket.onerror = (err) => console.error("WebSocket error:", err);
+    socket.onmessage = (event) => {
+      try {
+        const msg = JSON.parse(event.data);
+        console.log("📩 Message from server:", msg);
 
-    return () => socket.close();
-  }, []);
+        if (msg.type === "ack") {
+          // Example: handle server acknowledgments
+          console.log(`Server ACK: ${msg.payload}`);
+        } else if (msg.type === "status") {
+          console.log(`Server status: ${msg.payload}`);
+        }
+      } catch (err) {
+        console.error("Failed to parse server message:", event.data);
+      }
+    };
 
-  // Animation handler
+    socket.onclose = () => {
+      console.log("⚠️ WebSocket disconnected");
+      setConnected(false);
+    };
+
+    socket.onerror = (err) => {
+      console.error("WebSocket error:", err);
+    };
+  };
+
+  const disconnectFromServer = () => {
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({ type: "disconnect" }));
+      socketRef.current.close();
+    }
+  };
+
+  const sendMessage = (type, payload) => {
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({ type, payload }));
+      console.log(`➡️ Sent: ${type} | ${payload}`);
+    } else {
+      console.log("⚠️ Cannot send, WebSocket not connected");
+    }
+  };
+
   const handleAnimationEnd = (e) => {
     if (e.animationName === "expandX") {
       setAnimationStep("moveUp");
     } else if (e.animationName === "moveUp") {
       setAnimationStep("scale");
-    }
-  };
-
-  // Start / Stop handlers
-  const handleStart = () => {
-    if (socketRef.current?.readyState === WebSocket.OPEN) {
-      socketRef.current.send("Start");
-      console.log("try to send the start request");
-    }
-  };
-
-  const handleStop = () => {
-    if (socketRef.current?.readyState === WebSocket.OPEN) {
-      socketRef.current.send("Stop");
     }
   };
 
@@ -60,13 +92,33 @@ export default function ReqAnimation() {
         <h1 className="heading-text">Apple Intelligence</h1>
       </div>
 
-      <div className="connection-btns">
-        <button className="btn" onClick={handleStart} disabled={!connected}>
-          <span className="btn-text">Start</span> 
+      <div className="connection-btns space-x-2">
+        {!connected ? (
+          <button className="btn" onClick={connectToServer}>
+            Connect
+          </button>
+        ) : (
+          <button className="btn" onClick={disconnectFromServer}>
+            Disconnect
+          </button>
+        )}
+
+        <button
+          className="btn"
+          onClick={() => sendMessage("start", "start-to-animation")}
+          disabled={!connected}
+        >
+          Start
         </button>
-        <button className="btn" onClick={handleStop} disabled={!connected}>
-          <span className="btn-text" >stop</span>
+
+        <button
+          className="btn"
+          onClick={() => sendMessage("stop", "stop-to-animation")}
+          disabled={!connected}
+        >
+          Stop
         </button>
+
         <span className="conn-status-box ml-3">
           {connected ? "🟢 Connected" : "🔴 Disconnected"}
         </span>
