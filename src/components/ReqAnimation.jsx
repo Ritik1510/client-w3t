@@ -4,23 +4,19 @@ import "../index.css";
 export default function ReqAnimation() {
   const boxRef = useRef(null);
   const socketRef = useRef(null);
-  const [ connected, setConnected ] = useState(false);
-  const [ animationStep, setAnimationStep ] = useState("scale"); // "scale" | "moveUp"
-
-  // --------------------------
-  // WebSocket helpers
-  // --------------------------
+  const [connected, setConnected] = useState(false);
+  const [animationStep, setAnimationStep] = useState("scale"); // "scale" | "moveUp"
 
   const connectToServer = () => {
+    /**
+     * 
+     * **/
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       console.log("Already connected");
       return;
     }
-
-    const socket = new WebSocket(
-      "ws://localhost:8000"
-    );
-
+    
+    const socket = new WebSocket("ws://localhost:8000");
     socketRef.current = socket;
 
     socket.onopen = () => {
@@ -32,11 +28,12 @@ export default function ReqAnimation() {
       try {
         const msg = JSON.parse(event.data);
         console.log("📩 Message from server:", msg);
-
-        if (msg.type === "ack") {
+        if (msg.type === "start-animation") {
+          boxRef.current.classList.add(".box")
           // Example: handle server acknowledgments
           console.log(`Server ACK: ${msg.payload}`);
-        } else if (msg.type === "status") {
+        } else if (msg.type === "stop-animation") {
+          boxRef.current.classList.add(".box")
           console.log(`Server status: ${msg.payload}`);
         }
       } catch (err) {
