@@ -1,11 +1,9 @@
-import ReqAnimation from "./components/reqAnimation";
-import StreamAnimation from "./components/StreamAnimation";
+import ReqAnimation from "./components/reqAnimation.jsx";
 
 export default function App() {
   return (
     <>
     <ReqAnimation /> 
-    {/* <StreamAnimation /> */}
     </>
   )
 }
