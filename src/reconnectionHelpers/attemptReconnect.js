@@ -1,6 +1,6 @@
 /**
- * utils/attemptReconnect.js
- * Stop if user clicked disconnect
+ * 1. Check if the browser is offline or online (via navigator.onLine) ---> if ofline inform the user 
+ * 
  * Stop if browser is offline
  * Stop retrying after max attempts
  * Retry delay grows with attempts (1s → 5s max)
@@ -14,11 +14,12 @@ export function attemptReconnect({
     userDisconnected,
     maxAttempts = 5,
     maxDelay = 5000,
+    setConnected
 }) {
     if (userDisconnected) {
         console.log("Reconnection skipped: user disconnected.");
         return;
-    }
+    } setConnected(true)
 
     if (!navigator.onLine) {
         console.warn("📴 Offline: Skipping reconnection until network is back.");
