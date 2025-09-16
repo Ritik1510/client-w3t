@@ -17,7 +17,7 @@ export default function ReqAnimation() {
       console.log("Already connected");
       return;
     }
-    const socket = new WebSocket("ws://localhost:8000");
+    const socket = new WebSocket("ws://localhost:8080");
     socketRef.current = socket;
     let connectionStartTime;
     setUserDisconnected(false);
