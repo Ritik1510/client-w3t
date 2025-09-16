@@ -1,12 +1,20 @@
-/* @import "tailwindcss"; */
+@import "tailwindcss";
 :root {
+  --primary-btn-padding: clamp(0.3rem, 0.8rem, 0.9rem);
   --primary-btn-padding-inline: clamp(0.3rem, 0.8rem, 0.9rem);
-  --primary-btn-padding-block: clamp(0.3rem, 0.4rem, 0.9rem);
+  --primary-btn-padding-block: clamp(0.1rem, 0.2rem, 0.3rem);
+  --primary-btn-margin: 0;
+  --primary-btn-margin-block: clamp(0.3rem, 0.4rem, 0.9rem);
+  --primary-btn-margin-block: clamp(0.3rem, 0.4rem, 0.9rem);
+  --primary-btn-border: 2px solid black;
   --primary-btn-border-radius: 3rem;
   --primary-btn-font-size: clamp(1.5rem, 1.6rem, 1.8rem);
   --primary-btn-font-weight: 700 ;
   --primary-btn-font-letterSpacing: none;
   --primary-btn-font-lineHeight: none;
+  --primary-btn-min-height: none; 
+  --primary-btn-height: 100%; 
+  --primary-btn-max-width: 20vw; 
 }
 
 #root {
@@ -116,12 +124,13 @@ body {
   padding-inline: clamp(20px, 35px, 45px);
   padding-block: clamp(20px, 35px, 45px);
   gap: 1rem;
+  min-width: 100%;
 }
 
 .btn {
   outline: none;
   cursor: pointer;
-  border: none;
+  border: var(--primary-btn-border);
   padding-inline: var(--primary-btn-padding-inline);
   padding-block: var(--primary-btn-padding-block);
   margin: 0;
@@ -133,9 +142,9 @@ body {
   font-weight: var(--primary-btn-font-weight);
   border-radius: var(--primary-btn-border-radius);
   overflow: hidden;
-  background: #2895ee;
-  color: ghostwhite;
+  color: black;
   transition: transform 0.3s ease-in-out;
+  height: var(--primary-btn-height);
 }
 
 .btn:hover {
@@ -167,15 +176,22 @@ body {
   min-width: 45%;
 }
 
-/* Status container */
 .conn-status-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  margin-bottom: 0.5rem;
-  min-width: 45%;
+  min-width: 100%;
+}
+
+.status-box-absolute {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: auto;
+  width: fit-content;
+  font-size: 14px;
 }
 
 @media (max-width: 600px) {
