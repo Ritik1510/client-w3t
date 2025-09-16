@@ -1,3 +1,25 @@
+### Problem Statement Scenario:
+The Task is that develope a real-time web application that integrates WebSockets to handle dynamic animations. The application consists of a frontend (HTML, JavaScript, CSS,React js) and a backend (Node.js with WebSocket support,Or Your Prefered server).
+
+### Project Requirements
+1.	Frontend:
+    - Create a web page with Start and Stop buttons.
+    - Establish a WebSocket connection to a backend server.
+    - When clicking Start, request an animation from the WebSocket server and display it.
+    - When clicking Stop, stop the animation.
+2.	Backend:
+    - Implement a WebSocket server in Node.js.
+    - When a client sends a "Start" request, the server should send animation data continuously.
+    - When a client sends a "Stop" request, the server should stop sending data.
+
+### Created Application:
+
+A well-structured response should cover:
+✅ Frontend Implementation (WebSockets connection, button events, animation logic)
+✅ Backend Implementation (WebSocket server), 
+
+-----
+### [Checkout the MDN documentation here](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 ### (Client-Side WebSocket Management)
 
 When we talk about **WebSocket management on the client side**, we basically mean **how the browser or client app establishes, maintains, and controls the real-time connection** with the server.
