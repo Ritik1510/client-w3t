@@ -7,7 +7,7 @@ export default function StreamAnimation() {
 
   useEffect(() => {
     // Connect to WebSocket server
-    const socket = new WebSocket("ws://localhost:8080");
+    const socket = new WebSocket("wss://server-w3t.onrender.com");
     socketRef.current = socket;
 
     socket.onopen = () => {
