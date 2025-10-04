@@ -17,7 +17,7 @@ export default function ReqAnimation() {
       console.log("Already connected");
       return;
     }
-    const socket = new WebSocket("ws://localhost:8080");
+    const socket = new WebSocket("wss://server-w3t.onrender.com");
     socketRef.current = socket;
     let connectionStartTime;
     setUserDisconnected(false);
@@ -63,7 +63,8 @@ export default function ReqAnimation() {
           setReconnectAttempts,
           connectToServer,
           setError,
-          userDisconnected
+          userDisconnected,
+          setConnected
         );
       }
       if (connectionStartTime) {
