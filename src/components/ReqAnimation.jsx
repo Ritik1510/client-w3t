@@ -1,22 +1,28 @@
 import { useState, useRef, useEffect } from "react";
 import "../index.css";
 import { attemptReconnect } from "./reconnectionHelpers/attemptReconnect.js";
+import ConnectingSpinner from "./ConnectingSpinner.jsx";
 
 export default function ReqAnimation() {
   const boxRef = useRef(null);
   const socketRef = useRef(null);
   const [connected, setConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
   const [showBox, setShowBox] = useState(false);
   const [animationStep, setAnimationStep] = useState("");
   const [error, setError] = useState(null);
-  const [reconnectAttempts, setReconnectAttempts] = useState(0);
   const [userDisconnected, setUserDisconnected] = useState(false);
+  const [reconnectAttempts, setReconnectAttempts] = useState(0);
 
   const connectToServer = () => {
     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
       console.log("Already connected");
+      setIsConnecting(false);
       return;
     }
+
+    setIsConnecting(true); // start showing spinner
+
     const socket = new WebSocket("wss://server-w3t.onrender.com");
     socketRef.current = socket;
     let connectionStartTime;
@@ -28,6 +34,7 @@ export default function ReqAnimation() {
       setError(null); // clear error on success
       setReconnectAttempts(0); // reset attempts
       connectionStartTime = new Date();
+      setIsConnecting(false);
     };
 
     socket.onmessage = (event) => {
@@ -55,6 +62,7 @@ export default function ReqAnimation() {
 
     socket.onclose = () => {
       console.log("⚠️ WebSocket disconnected");
+      setIsConnecting(false); // in case closed during handshake
       setShowBox(false);
       setConnected(false);
       if (!userDisconnected) {
@@ -82,6 +90,7 @@ export default function ReqAnimation() {
 
     socket.onerror = (err) => {
       console.error("WebSocket error:", err);
+      setIsConnecting(false); // also stop spinner on error
       setUserDisconnected(false);
       setConnected(false);
       socket.close();
@@ -129,6 +138,7 @@ export default function ReqAnimation() {
         setError,
         userDisconnected,
         setConnected,
+        setIsConnecting
       });
     };
 
@@ -166,14 +176,17 @@ export default function ReqAnimation() {
       <div className="connection-btns">
         <div className="conn-status-container">
           {!connected ? (
-            <button className="btn" onClick={connectToServer}>
-              <span className="btn-text">Connect</span>
+            <button className="btn" onClick={connectToServer} disabled={isConnecting}>
+              <span className="btn-text">
+                {isConnecting ? "Connecting..." : "Connect"}
+              </span>
             </button>
           ) : (
             <button className="btn" onClick={disconnectFromServer}>
               <span className="btn-text">Disconnect</span>
             </button>
           )}
+          {isConnecting && <ConnectingSpinner />}
           <div className="conn-status-box-container">
             <span className="btn">
               {connected ? "🟢 Connected" : "🔴 Disconnected"}
@@ -233,7 +246,7 @@ export default function ReqAnimation() {
  * ---> send a closing handshake to the server and relase the connected user/client based resources
  * ---> inform the user/client with prefered message 'network issue'
  *
- * 8. ]disconnectFromServer] method ===>
+ * 8. [disconnectFromServer] method ===>
  * ---> sockets current state like is it open or not
  * ---> based on the that conditions, the corresponding tasks are executed
  * ---> like sends a message to the server that the client is disconnected or intentionlly disconnect, so the server takes the further action on stored client resouces for example release the client information completely
