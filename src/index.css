@@ -205,6 +205,35 @@ body {
   font-size: 14px;
 }
 
+
+/* for disable the butttons when client is not connected*/
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Spinner.css */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; 
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #09f; 
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @media (max-width: 600px) {
   .connection-btns {
     gap: 1rem;
@@ -219,10 +248,4 @@ body {
   .conn-status-container {
     width: 100%; 
   }
-}
-
-/* for disable the butttons when client is not connected*/
-.btn-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
