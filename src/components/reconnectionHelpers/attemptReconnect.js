@@ -6,13 +6,14 @@ export function attemptReconnect({
     userDisconnected,
     maxAttempts = 5,
     maxDelay = 5000,
-    setConnected
+    setConnected, 
+    setIsConnecting
 }) {
     if (userDisconnected) {
         console.log("Reconnection skipped: user disconnected.");
         return;
     } setConnected(true)
-
+    
     if (!navigator.onLine) {
         console.warn("📴 Offline: Skipping reconnection until network is back.");
         setError("📴 No internet connection. Waiting for network...");
@@ -28,7 +29,7 @@ export function attemptReconnect({
 
     const retryDelay = Math.min(maxDelay, (reconnectAttempts + 1) * 1000);
     console.log(`Reconnecting in ${retryDelay / 1000}s...`);
-
+    setIsConnecting(true);
     setTimeout(() => {
         setReconnectAttempts((prev) => prev + 1);
         connectToServer(true); // call connect again
