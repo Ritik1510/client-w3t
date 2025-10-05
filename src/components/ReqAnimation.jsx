@@ -179,6 +179,9 @@ export default function ReqAnimation() {
               {connected ? "🟢 Connected" : "🔴 Disconnected"}
             </span>
           </div>
+        </div>
+
+        <div className="action-btns">
           <button
             className={`btn ${!connected ? "btn-disabled" : ""}`}
             onClick={() => sendMessage("start", "start-to-animation")}
@@ -197,13 +200,6 @@ export default function ReqAnimation() {
       </div>
       <div className="network-status-message">
         {error && <p className="error-msg-text">{error}</p>}
-      </div>
-      <div className="status-box-absolute">
-        <p>
-          <span className="btn">
-            {connected ? "🟢 Connected" : "🔴 Disconnected"}
-          </span>
-        </p>
       </div>
     </div>
   );
